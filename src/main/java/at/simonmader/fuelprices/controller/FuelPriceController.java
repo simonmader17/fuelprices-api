@@ -3,9 +3,11 @@ package at.simonmader.fuelprices.controller;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import at.simonmader.fuelprices.model.FuelPrice;
 import at.simonmader.fuelprices.repositories.FuelPriceRepository;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class FuelPriceController {
 
