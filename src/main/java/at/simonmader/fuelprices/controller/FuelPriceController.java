@@ -19,7 +19,7 @@ public class FuelPriceController {
 
   @GetMapping("/")
   public List<FuelPrice> getAllFuelPrices() {
-    return fuelPriceRepository.findAll();
+    return fuelPriceRepository.findAllOrderByTimestamp();
   }
 
   @GetMapping("/desc")

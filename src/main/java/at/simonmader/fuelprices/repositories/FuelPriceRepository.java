@@ -10,6 +10,9 @@ import at.simonmader.fuelprices.model.FuelPrice;
 @Repository
 public interface FuelPriceRepository extends JpaRepository<FuelPrice, Date> {
 
+  @Query("select fp from FuelPrice fp order by fp.timestamp")
+  List<FuelPrice> findAllOrderByTimestamp();
+
   @Query("select fp from FuelPrice fp order by fp.timestamp desc")
   List<FuelPrice> findAllOrderByTimestampDesc();
 
