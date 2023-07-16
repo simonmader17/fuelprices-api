@@ -1,5 +1,8 @@
 package at.simonmader.fuelprices.controller;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +48,34 @@ public class FuelPriceController {
   @GetMapping("/latestAvanti")
   public FuelPrice getLatestAvantiPrice() {
     return fuelPriceRepository.findAvantiPricesDesc().get(0);
+  }
+
+  @GetMapping("/lowestJetWeek")
+  public double getLowestJetPriceWeek() {
+    LocalDateTime startDateTime = LocalDateTime.now().minusWeeks(1);
+    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    return fuelPriceRepository.findLowestJetPriceSinceDate(startDate);
+  }
+
+  @GetMapping("/lowestAvantiWeek")
+  public double getLowestAvantiPriceWeek() {
+    LocalDateTime startDateTime = LocalDateTime.now().minusWeeks(1);
+    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    return fuelPriceRepository.findLowestAvantiPriceSinceDate(startDate);
+  }
+
+  @GetMapping("/lowestJetMonth")
+  public double getLowestJetPriceMonth() {
+    LocalDateTime startDateTime = LocalDateTime.now().minusMonths(1);
+    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    return fuelPriceRepository.findLowestJetPriceSinceDate(startDate);
+  }
+
+  @GetMapping("/lowestAvantiMonth")
+  public double getLowestAvantiPriceMonth() {
+    LocalDateTime startDateTime = LocalDateTime.now().minusMonths(1);
+    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    return fuelPriceRepository.findLowestAvantiPriceSinceDate(startDate);
   }
 
 }
