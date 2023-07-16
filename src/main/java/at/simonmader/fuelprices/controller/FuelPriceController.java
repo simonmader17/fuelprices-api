@@ -1,9 +1,9 @@
 package at.simonmader.fuelprices.controller;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import at.simonmader.fuelprices.model.FuelPrice;
 import at.simonmader.fuelprices.repositories.FuelPriceRepository;
 
@@ -35,6 +35,16 @@ public class FuelPriceController {
   @GetMapping("/avanti")
   public List<FuelPrice> getAvantiPrices() {
     return fuelPriceRepository.findAvantiPrices();
+  }
+
+  @GetMapping("/latestJet")
+  public FuelPrice getLatestJetPrice() {
+    return fuelPriceRepository.findJetPricesDesc().get(0);
+  }
+
+  @GetMapping("/latestAvanti")
+  public FuelPrice getLatestAvantiPrice() {
+    return fuelPriceRepository.findAvantiPricesDesc().get(0);
   }
 
 }

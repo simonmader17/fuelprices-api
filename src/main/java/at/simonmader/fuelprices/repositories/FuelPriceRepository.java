@@ -22,4 +22,10 @@ public interface FuelPriceRepository extends JpaRepository<FuelPrice, Date> {
   @Query("select fp from FuelPrice fp where fp.avanti != null")
   List<FuelPrice> findAvantiPrices();
 
+  @Query("select fp from FuelPrice fp where fp.jet != null order by fp.timestamp desc")
+  List<FuelPrice> findJetPricesDesc();
+
+  @Query("select fp from FuelPrice fp where fp.avanti != null order by fp.timestamp desc")
+  List<FuelPrice> findAvantiPricesDesc();
+
 }
