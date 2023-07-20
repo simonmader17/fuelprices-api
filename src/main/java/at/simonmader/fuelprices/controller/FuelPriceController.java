@@ -86,6 +86,34 @@ public class FuelPriceController {
     return fuelPriceRepository.findLowestAvantiPriceSinceDate(startDate);
   }
 
+  @GetMapping("/highestJetWeek")
+  public double getHighestJetPriceWeek() {
+    LocalDateTime startDateTime = LocalDateTime.now().minusWeeks(1);
+    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    return fuelPriceRepository.findHighestJetPriceSinceDate(startDate);
+  }
+
+  @GetMapping("/highestAvantiWeek")
+  public double getHighestAvantiPriceWeek() {
+    LocalDateTime startDateTime = LocalDateTime.now().minusWeeks(1);
+    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    return fuelPriceRepository.findHighestAvantiPriceSinceDate(startDate);
+  }
+
+  @GetMapping("/highestJetMonth")
+  public double getHighestJetPriceMonth() {
+    LocalDateTime startDateTime = LocalDateTime.now().minusMonths(1);
+    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    return fuelPriceRepository.findHighestJetPriceSinceDate(startDate);
+  }
+
+  @GetMapping("/highestAvantiMonth")
+  public double getHighestAvantiPriceMonth() {
+    LocalDateTime startDateTime = LocalDateTime.now().minusMonths(1);
+    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    return fuelPriceRepository.findHighestAvantiPriceSinceDate(startDate);
+  }
+
   @GetMapping("/chatIDs")
   public List<Integer> getAllChatIds() {
     return botChatIdRepository.findAllChatIds();

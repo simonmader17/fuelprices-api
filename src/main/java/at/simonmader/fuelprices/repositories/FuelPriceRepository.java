@@ -35,4 +35,10 @@ public interface FuelPriceRepository extends JpaRepository<FuelPrice, Date> {
   @Query("select min(fp.avanti) from FuelPrice fp where fp.timestamp >= :startDateTime")
   double findLowestAvantiPriceSinceDate(@Param("startDateTime") Date startDateTime);
 
+  @Query("select max(fp.jet) from FuelPrice fp where fp.timestamp >= :startDateTime")
+  double findHighestJetPriceSinceDate(@Param("startDateTime") Date startDateTime);
+
+  @Query("select max(fp.avanti) from FuelPrice fp where fp.timestamp >= :startDateTime")
+  double findHighestAvantiPriceSinceDate(@Param("startDateTime") Date startDateTime);
+
 }
