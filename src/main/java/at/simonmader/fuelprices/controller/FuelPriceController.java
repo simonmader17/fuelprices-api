@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import at.simonmader.fuelprices.model.BotChatId;
 import at.simonmader.fuelprices.model.FuelPrice;
+import at.simonmader.fuelprices.model.FuelPriceWithoutDate;
 import at.simonmader.fuelprices.repositories.BotChatIdRepository;
 import at.simonmader.fuelprices.repositories.FuelPriceRepository;
 
@@ -28,6 +30,7 @@ public class FuelPriceController {
     this.botChatIdRepository = botChatIdRepository;
   }
 
+  // FuelPrice
   @GetMapping("/")
   public List<FuelPrice> getAllFuelPrices() {
     return fuelPriceRepository.findAllOrderByTimestamp();
@@ -58,62 +61,66 @@ public class FuelPriceController {
     return fuelPriceRepository.findAvantiPricesDesc().get(0);
   }
 
-  @GetMapping("/lowestJetWeek")
-  public double getLowestJetPriceWeek() {
-    LocalDateTime startDateTime = LocalDateTime.now().minusWeeks(1);
-    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    return fuelPriceRepository.findLowestJetPriceSinceDate(startDate);
+  @GetMapping("/latestJetLangenrohr")
+  public FuelPrice getLatestJetLangenrohrPrice() {
+    return fuelPriceRepository.findJetLangenrohrPricesDesc().get(0);
   }
 
-  @GetMapping("/lowestAvantiWeek")
-  public double getLowestAvantiPriceWeek() {
-    LocalDateTime startDateTime = LocalDateTime.now().minusWeeks(1);
-    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    return fuelPriceRepository.findLowestAvantiPriceSinceDate(startDate);
+  @GetMapping("/latestBp")
+  public FuelPrice getLatestBpPrice() {
+    return fuelPriceRepository.findBpPricesDesc().get(0);
   }
 
-  @GetMapping("/lowestJetMonth")
-  public double getLowestJetPriceMonth() {
-    LocalDateTime startDateTime = LocalDateTime.now().minusMonths(1);
-    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    return fuelPriceRepository.findLowestJetPriceSinceDate(startDate);
+  @GetMapping("/latest")
+  public FuelPriceWithoutDate getLatest() {
+    double avanti = getLatestAvantiPrice().getAvanti();
+    double jet = getLatestJetPrice().getJet();
+    double jetLangenrohr = getLatestJetLangenrohrPrice().getJetLangenrohr();
+    double bp = getLatestBpPrice().getBp();
+    return new FuelPriceWithoutDate() {
+
+      @Override
+      public double getAvanti() {
+        return avanti;
+      }
+
+      @Override
+      public double getJet() {
+        return jet;
+      }
+
+      @Override
+      public double getJetLangenrohr() {
+        return jetLangenrohr;
+      }
+
+      @Override
+      public double getBp() {
+        return bp;
+      }
+
+    };
   }
 
-  @GetMapping("/lowestAvantiMonth")
-  public double getLowestAvantiPriceMonth() {
-    LocalDateTime startDateTime = LocalDateTime.now().minusMonths(1);
+  @GetMapping("/lowestSinceDays")
+  public FuelPriceWithoutDate getLowestSinceDays(@RequestParam(defaultValue = "0") int days) {
+    if (days == 0)
+      return fuelPriceRepository.findLowest().get(0);
+    LocalDateTime startDateTime = LocalDateTime.now().minusDays(days);
     Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    return fuelPriceRepository.findLowestAvantiPriceSinceDate(startDate);
+    return fuelPriceRepository.findLowestSinceDays(startDate).get(0);
   }
 
-  @GetMapping("/highestJetWeek")
-  public double getHighestJetPriceWeek() {
-    LocalDateTime startDateTime = LocalDateTime.now().minusWeeks(1);
+  @GetMapping("/highestSinceDays")
+  public FuelPriceWithoutDate getHighestSinceDays(@RequestParam(defaultValue = "0") int days) {
+    if (days == 0)
+      return fuelPriceRepository.findHighest().get(0);
+    LocalDateTime startDateTime = LocalDateTime.now().minusDays(days);
     Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    return fuelPriceRepository.findHighestJetPriceSinceDate(startDate);
+    return fuelPriceRepository.findHighestSinceDays(startDate).get(0);
   }
 
-  @GetMapping("/highestAvantiWeek")
-  public double getHighestAvantiPriceWeek() {
-    LocalDateTime startDateTime = LocalDateTime.now().minusWeeks(1);
-    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    return fuelPriceRepository.findHighestAvantiPriceSinceDate(startDate);
-  }
-
-  @GetMapping("/highestJetMonth")
-  public double getHighestJetPriceMonth() {
-    LocalDateTime startDateTime = LocalDateTime.now().minusMonths(1);
-    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    return fuelPriceRepository.findHighestJetPriceSinceDate(startDate);
-  }
-
-  @GetMapping("/highestAvantiMonth")
-  public double getHighestAvantiPriceMonth() {
-    LocalDateTime startDateTime = LocalDateTime.now().minusMonths(1);
-    Date startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    return fuelPriceRepository.findHighestAvantiPriceSinceDate(startDate);
-  }
-
+  // BotChatId
   @GetMapping("/chatIDs")
   public List<Integer> getAllChatIds() {
     return botChatIdRepository.findAllChatIds();
