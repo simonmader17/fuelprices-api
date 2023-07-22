@@ -20,6 +20,12 @@ public class FuelPrice {
   @Column(name = "avanti")
   private Double avanti;
 
+  @Column(name = "jet_langenrohr")
+  private Double jetLangenrohr;
+
+  @Column(name = "bp")
+  private Double bp;
+
   public FuelPrice() {
 
   }
@@ -46,6 +52,22 @@ public class FuelPrice {
 
   public void setAvanti(Double avanti) {
     this.avanti = avanti;
+  }
+
+  public Double getJetLangenrohr() {
+    return this.jetLangenrohr;
+  }
+
+  public void setJetLangenrohr(Double jetLangenrohr) {
+    this.jetLangenrohr = jetLangenrohr;
+  }
+
+  public Double getBp() {
+    return this.bp;
+  }
+
+  public void setBp(Double bp) {
+    this.bp = bp;
   }
 
 }
