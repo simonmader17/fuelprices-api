@@ -52,31 +52,31 @@ public class FuelPriceController {
   }
 
   @GetMapping("/latestJet")
-  public FuelPrice getLatestJetPrice() {
-    return fuelPriceRepository.findJetPricesDesc().get(0);
+  public FuelPrice getLatestJetPrice(@RequestParam(defaultValue = "0") int i) {
+    return fuelPriceRepository.findJetPricesDesc().get(i);
   }
 
   @GetMapping("/latestAvanti")
-  public FuelPrice getLatestAvantiPrice() {
-    return fuelPriceRepository.findAvantiPricesDesc().get(0);
+  public FuelPrice getLatestAvantiPrice(@RequestParam(defaultValue = "0") int i) {
+    return fuelPriceRepository.findAvantiPricesDesc().get(i);
   }
 
   @GetMapping("/latestJetLangenrohr")
-  public FuelPrice getLatestJetLangenrohrPrice() {
-    return fuelPriceRepository.findJetLangenrohrPricesDesc().get(0);
+  public FuelPrice getLatestJetLangenrohrPrice(@RequestParam(defaultValue = "0") int i) {
+    return fuelPriceRepository.findJetLangenrohrPricesDesc().get(i);
   }
 
   @GetMapping("/latestBp")
-  public FuelPrice getLatestBpPrice() {
-    return fuelPriceRepository.findBpPricesDesc().get(0);
+  public FuelPrice getLatestBpPrice(@RequestParam(defaultValue = "0") int i) {
+    return fuelPriceRepository.findBpPricesDesc().get(i);
   }
 
   @GetMapping("/latest")
   public FuelPriceWithoutDate getLatest() {
-    double avanti = getLatestAvantiPrice().getAvanti();
-    double jet = getLatestJetPrice().getJet();
-    double jetLangenrohr = getLatestJetLangenrohrPrice().getJetLangenrohr();
-    double bp = getLatestBpPrice().getBp();
+    double avanti = getLatestAvantiPrice(0).getAvanti();
+    double jet = getLatestJetPrice(0).getJet();
+    double jetLangenrohr = getLatestJetLangenrohrPrice(0).getJetLangenrohr();
+    double bp = getLatestBpPrice(0).getBp();
     return new FuelPriceWithoutDate() {
 
       @Override
