@@ -1,4 +1,4 @@
-# fuelprices-api
+# Fuelprices API
 
 This is the API in [my Fuelprices application stack](https://github.com/simonmader17/fuelprices-svelte?tab=readme-ov-file#description).
 
